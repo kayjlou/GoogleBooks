@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const db = {
-  Book: require('./Book.js')(Schema, model)
+  Book: require('./Books.js')(Schema, model)
 
 }
 
