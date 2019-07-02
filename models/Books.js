@@ -11,7 +11,7 @@ module.exports = (Schema, model) => {
       type: String
     },
     image: {
-      type: { String }
+      type: String
     },
     link: {
       type: String
