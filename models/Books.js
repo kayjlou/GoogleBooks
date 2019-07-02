@@ -4,10 +4,16 @@ module.exports = (Schema, model) => {
     title: {
       type: String
     },
+    authors: {
+      type: [String]
+    },
     description: {
       type: String
     },
-    author: {
+    image: {
+      type: { String }
+    },
+    link: {
       type: String
     }
 
