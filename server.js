@@ -7,17 +7,11 @@ app.use(express.static(join(__dirname, 'client')))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-if (process.env.NODE_ENV === 'production') {
-  //set static folder
-  app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(resolve(__dirname, 'client', 'build', 'index.html'));
-  })
-}
+let MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/booksdb'
 
 require('./routes')(app)
 
-require('mongoose').connect('mongodb://localhost/booksdb', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: true })
+require('mongoose').connect(MONGODB_URI || { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: true })
   .then(_ => app.listen(process.env.PORT || 3001))
   .catch(e => console.log(e))
 
