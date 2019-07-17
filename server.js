@@ -1,18 +1,24 @@
 const express = require('express')
-const { join } = require('path')
+const { join, resolve } = require('path')
 const app = express()
-// const axios = require('axios')
-// const cheerio = require('cheerio')
-// const db = require('mongojs')('scraper_db')
 
-app.use(express.static(join(__dirname, 'public')))
+
+app.use(express.static(join(__dirname, 'client')))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+if (process.env.NODE_ENV === 'production') {
+  //set static folder
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(resolve(__dirname, 'client', 'build', 'index.html'));
+  })
+}
 
 require('./routes')(app)
 
 require('mongoose').connect('mongodb://localhost/booksdb', { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: true })
-  .then(_ => app.listen(3000))
+  .then(_ => app.listen(process.env.PORT || 3001))
   .catch(e => console.log(e))
 
 
